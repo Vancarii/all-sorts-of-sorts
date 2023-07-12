@@ -35,58 +35,73 @@ int main()
 
 
 
-    for (int N = 2000; N <= 50000; N += 2000)
-    {
-        v = rand_vec(N, 1, N);
-        SortStats stats = bubble_sort(v);
-        cout << stats.to_csv() << endl;
-        cout << setprecision(15);
-        filestream << stats.to_csv() << endl;
-    }
+    // for (int N = 2000; N <= 50000; N += 2000)
+    // {
+    //     v = rand_vec(N, 1, N);
+    //     SortStats stats = bubble_sort(v);
+    //     cout << stats.to_csv() << endl;
+    //     // cout << setprecision(15);
+    //     filestream << stats.to_csv() << endl;
+    // }
+
+    // for (int N = 2000; N <= 50000; N += 2000)
+    // {
+    //     v = rand_vec(N, 1, N);
+    //     SortStats stats = insertion_sort(v);
+    //     cout << stats.to_csv() << endl;
+    //     filestream << stats.to_csv() << endl;
+    // }
 
 
+    // for (int N = 2000; N <= 50000; N += 2000)
+    // {
+    //     v = rand_vec(N, 1, N);
+    //     SortStats stats = selection_sort(v);
+    //     cout << stats.to_csv() << endl;
+    //     filestream << stats.to_csv() << endl;
+    // }
 
+
+    // for (int N = 2000; N <= 50000; N += 2000)
+    // {
+    //     v = rand_vec(N, 1, N);
+    //     // cout << v << endl;
+    //     SortStats stats = merge_sort(v);
+    //     filestream << setprecision(12);
+    //     cout << stats.to_csv() << endl;
+
+    
+    //     filestream << stats.to_csv() << endl;
+    // }
+    //     assert(is_sorted(v));
+
+    //     // cout << v << endl;
+
+
+    // for (int N = 2000; N <= 50000; N += 2000)
+    // {
+    //     v = rand_vec(N, 1, N);
+    //     SortStats stats = quick_sort(v);
+    //     cout << stats.to_csv() << endl;
+    //     filestream << stats.to_csv() << endl;
+    // }
+    // for (int N = 2000; N <= 50000; N += 2000)
+    // {
+    //     v = rand_vec(N, 1, N);
+    //     SortStats stats = shell_sort(v);
+    //     cout << stats.to_csv() << endl;
+    //     filestream << stats.to_csv() << endl;
+    // }
     for (int N = 2000; N <= 50000; N += 2000)
     {
         v = rand_vec(N, 1, N);
-        SortStats stats = insertion_sort(v);
-        cout << stats.to_csv() << endl;
-        filestream << stats.to_csv() << endl;
-    }
-    for (int N = 2000; N <= 50000; N += 2000)
-    {
-        v = rand_vec(N, 1, N);
-        SortStats stats = selection_sort(v);
-        cout << stats.to_csv() << endl;
-        filestream << stats.to_csv() << endl;
-    }
-    for (int N = 2000; N <= 50000; N += 2000)
-    {
-        v = rand_vec(N, 1, N);
-        SortStats stats = merge_sort(v);
-        cout << stats.to_csv() << endl;
-        filestream << stats.to_csv() << endl;
-    }
-    for (int N = 2000; N <= 50000; N += 2000)
-    {
-        v = rand_vec(N, 1, N);
-        SortStats stats = quick_sort(v);
-        cout << stats.to_csv() << endl;
-        filestream << stats.to_csv() << endl;
-    }
-    for (int N = 2000; N <= 50000; N += 2000)
-    {
-        v = rand_vec(N, 1, N);
-        SortStats stats = shell_sort(v);
-        cout << stats.to_csv() << endl;
-        filestream << stats.to_csv() << endl;
-    }
-    for (int N = 2000; N <= 50000; N += 2000)
-    {
-        v = rand_vec(N, 1, N);
+        // cout << v << endl;
         SortStats stats = iquick_sort(v);
         cout << stats.to_csv() << endl;
         filestream << stats.to_csv() << endl;
+        // cout << v << endl;
     }
 
+    assert(is_sorted(v));
+;
 } // main
