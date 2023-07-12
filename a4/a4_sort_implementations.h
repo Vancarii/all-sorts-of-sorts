@@ -48,6 +48,7 @@ bool is_sorted(vector<T> &v){
     return true;
 };
 
+//  Bubble Sort  //////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
 SortStats bubble_sort(vector<T> &v)
@@ -72,14 +73,18 @@ SortStats bubble_sort(vector<T> &v)
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
-    return SortStats{"Bubble sort",
-                     v.size(),
-                     num_comps,
-                     elapsed_cpu_time_sec};
+    SortStats stats = SortStats{"Bubble sort",
+                                v.size(),
+                                num_comps,
+                                elapsed_cpu_time_sec};
+
+    // cout << stats.to_csv() << endl;
+
+
+    return stats;
 }
 
-
-
+//  Insertion Sort  //////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
 SortStats insertion_sort(vector<T> &v){
@@ -119,7 +124,7 @@ SortStats insertion_sort(vector<T> &v){
                      elapsed_cpu_time_sec};
 };
 
-
+//  Selection Sort  //////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
 SortStats selection_sort(vector<T> &v){
@@ -158,19 +163,17 @@ SortStats selection_sort(vector<T> &v){
 };
 
 
-
-
-
-
+//  Merge Sort  //////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
-void merge(vector<T> &v, int start, int mid, int end)
+void merge(vector<T> &v, int start, int mid, int end, ulong &num_comps)
 {
     vector<T> temp(end - start + 1);
     int i = start, j = mid + 1, k = 0;
 
     while (i <= mid && j <= end)
     {
+        num_comps++;
         if (v[i] <= v[j])
         {
             temp[k++] = v[i++];
@@ -198,14 +201,14 @@ void merge(vector<T> &v, int start, int mid, int end)
 }
 
 template <typename T>
-void mergeRec(vector<T> &v, int start, int end)
+void mergeRec(vector<T> &v, int start, int end, ulong &num_comps)
 {
     if (start < end)
     {
         int mid = start + (end - start) / 2;
-        mergeRec(v, start, mid);
-        mergeRec(v, mid + 1, end);
-        merge(v, start, mid, end);
+        mergeRec(v, start, mid, num_comps);
+        mergeRec(v, mid + 1, end, num_comps);
+        merge(v, start, mid, end, num_comps);
     }
 }
 
@@ -216,13 +219,15 @@ SortStats merge_sort(vector<T> &v)
 
     ulong num_comps = 0;
 
+    // fix this num comps
+
     int n = v.size();
     // if (n <= 1)
     // {
     //     return;
     // }
 
-    mergeRec(v, 0, n - 1);
+    mergeRec(v, 0, n - 1, num_comps);
 
     clock_t end = clock();
     double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
@@ -233,16 +238,175 @@ SortStats merge_sort(vector<T> &v)
                         elapsed_cpu_time_sec};
 }
 
-
-
-template <typename T>
-SortStats quick_sort(vector<T> &v);
+//  Quick Sort  //////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
-SortStats shell_sort(vector<T> &v);
+int partition(vector<T> &v, int low, int high, ulong &num_comps)
+{
+    T pivot = v[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; ++j)
+    {
+        num_comps++;
+        if (v[j] <= pivot)
+        {
+            ++i;
+            swap(v[i], v[j]);
+        }
+    }
+
+    swap(v[i + 1], v[high]);
+    return i + 1;
+}
 
 template <typename T>
-SortStats iquick_sort(vector<T> &v);
+void quickSort(vector<T> &v, int low, int high, ulong &num_comps)
+{
+    if (low < high)
+    {
+        int pivotIdx = partition(v, low, high, num_comps);
+
+        quickSort(v, low, pivotIdx - 1, num_comps);
+        quickSort(v, pivotIdx + 1, high, num_comps);
+    }
+}
+
+template <typename T>
+SortStats quick_sort(vector<T> &v){
+
+    clock_t start = clock();
+
+    ulong num_comps = 0;
+
+    int n = v.size();
+    // if (n <= 1)
+    // {
+    //     return;
+    // }
+
+    quickSort(v, 0, n - 1, num_comps);
+
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+
+    return SortStats{"Quick sort",
+                     v.size(),
+                     num_comps,
+                     elapsed_cpu_time_sec};
+}
+
+
+//  Shell Sort  //////////////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+SortStats shell_sort(vector<T> &v){
+
+    clock_t start = clock();
+
+    ulong num_comps = 0;
+
+    int n = v.size();
+
+    // Start with a large gap and reduce it in each iteration by /2
+    for (int gap = n / 2; gap > 0; gap /= 2)
+    {
+        // Perform insertion sort on elements at the gap intervals
+        for (int i = gap; i < n; ++i)
+        {
+            T temp = v[i];
+            int j;
+
+            // Shift elements until the correct position for the current element is found
+            for (j = i; j >= gap && v[j - gap] > temp; j -= gap)
+            {
+                num_comps++;
+                v[j] = v[j - gap];
+            }
+
+            v[j] = temp;
+        }
+    }
+
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+
+    return SortStats{"Shell sort",
+                     v.size(),
+                     num_comps,
+                     elapsed_cpu_time_sec};
+};
+
+//  iQuick Sort  //////////////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+int i_partition(vector<T> &v, int low, int high, ulong &num_comps)
+{
+    T pivot = v[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; ++j)
+    {
+        num_comps++;
+        if (v[j] <= pivot)
+        {
+            ++i;
+            swap(v[i], v[j]);
+        }
+    }
+
+    swap(v[i + 1], v[high]);
+    return i + 1;
+}
+
+template <typename T>
+void iquickSort(vector<T> &v, int low, int high, ulong &num_comps)
+{
+
+    int threshold = 15;
+    int sz = high - low;
+
+    if (low < high)
+    {
+        int pivotIdx = i_partition(v, low, high, num_comps);
+
+        if (sz <= threshold){
+            SortStats stats = insertion_sort(v);
+            num_comps += stats.num_comparisons;
+        } else {
+            iquickSort(v, low, pivotIdx - 1, num_comps);
+            iquickSort(v, pivotIdx + 1, high, num_comps);
+        }
+    }
+}
+
+template <typename T>
+SortStats iquick_sort(vector<T> &v){
+    clock_t start = clock();
+
+    ulong num_comps = 0;
+
+    int n = v.size();
+    // if (n <= 1)
+    // {
+    //     return;
+    // }
+
+    iquickSort(v, 0, n - 1, num_comps);
+
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+
+    SortStats stats = SortStats{"iQuick sort",
+                                v.size(),
+                                num_comps,
+                                elapsed_cpu_time_sec};
+
+    // cout << stats.to_csv() << endl;
+
+    return stats;
+};
+
 
 //
 // Returns a vector of n randomly chosen ints, each <= max and >= min.
@@ -251,13 +415,13 @@ vector<int> rand_vec(int n, int min, int max){
 
     vector<int> v;
 
-    for (int i = 0; i < n; i++){
-        
-        int num = rand() % (max - 1) + (min + 1);
+    srand((unsigned int)time(NULL));
+    
+    for (int i = 0; i < n; ++i){
 
-        if (num != min && num != max){
-            v.push_back(num);
-        }
+
+        int num = (rand() % max) + min;
+        v.push_back(num);
         
     }
 
