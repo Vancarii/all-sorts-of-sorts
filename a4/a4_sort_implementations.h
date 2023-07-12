@@ -27,11 +27,11 @@
 #pragma once
 
 #include "a4_base.h"
-#include <chrono>
+// #include <chrono>
 
 using namespace std;
 
-using namespace std::chrono;
+// using namespace std::chrono;
 
 
 template <typename T>
@@ -52,9 +52,9 @@ bool is_sorted(vector<T> &v){
 template <typename T>
 SortStats bubble_sort(vector<T> &v)
 {
-    time_point start = high_resolution_clock::now();
+    // time_point start = high_resolution_clock::now();
     ulong num_comps = 0; 
-    // clock_t start = clock();
+    clock_t start = clock();
 
     for (int i = 0; i < v.size(); i++)
     {
@@ -70,12 +70,12 @@ SortStats bubble_sort(vector<T> &v)
         }
     }
 
-    // clock_t end = clock();
-    // double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
-    time_point stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    double elapsed_cpu_time_sec = duration.count() / (double)1e9;
+    // time_point stop = high_resolution_clock::now();
+    // auto duration = duration_cast<nanoseconds>(stop - start);
+    // double elapsed_cpu_time_sec = duration.count() / (double)1e9;
 
     SortStats stats = SortStats{"Bubble sort",
                                 v.size(),
@@ -96,8 +96,8 @@ SortStats insertion_sort(vector<T> &v){
     ulong num_comps = 0;
     int n = v.size();
 
-    // clock_t start = clock();
-    time_point start = high_resolution_clock::now();
+    clock_t start = clock();
+    // time_point start = high_resolution_clock::now();
 
     for (int i = 1; i < n; ++i){
         T key = v[i];
@@ -120,12 +120,12 @@ SortStats insertion_sort(vector<T> &v){
         v[j+1] = key;
     }
 
-    time_point stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    double elapsed_cpu_time_sec = duration.count() / (double)1e9;
+    // time_point stop = high_resolution_clock::now();
+    // auto duration = duration_cast<nanoseconds>(stop - start);
+    // double elapsed_cpu_time_sec = duration.count() / (double)1e9;
 
-    // clock_t end = clock();
-    // double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
     return SortStats{"Insertion sort",
                      v.size(),
@@ -138,13 +138,13 @@ SortStats insertion_sort(vector<T> &v){
 template <typename T>
 SortStats selection_sort(vector<T> &v){
 
-    time_point start = high_resolution_clock::now();
+    // time_point start = high_resolution_clock::now();
+    clock_t start = clock();
 
     int n = v.size();
 
     ulong num_comps = 0;
 
-    // clock_t start = clock();
 
     for (int i = 0; i < n - 1; ++i)
     {
@@ -164,12 +164,12 @@ SortStats selection_sort(vector<T> &v){
         swap(v[i], v[minIndex]);
     }
 
-    // clock_t end = clock();
-    // double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
-    time_point stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    double elapsed_cpu_time_sec = duration.count() / (double)1e9;
+    // time_point stop = high_resolution_clock::now();
+    // auto duration = duration_cast<nanoseconds>(stop - start);
+    // double elapsed_cpu_time_sec = duration.count() / (double)1e9;
 
     return SortStats{"Selection sort",
                      v.size(),
@@ -230,7 +230,9 @@ void mergeRec(vector<T> &v, int start, int end, ulong &num_comps)
 template <typename T>
 SortStats merge_sort(vector<T> &v)
 {
-    time_point start = high_resolution_clock::now();
+    // time_point start = high_resolution_clock::now();
+
+    clock_t start = clock();
 
     ulong num_comps = 0;
 
@@ -242,9 +244,12 @@ SortStats merge_sort(vector<T> &v)
 
     mergeRec(v, 0, n - 1, num_comps);
 
-    time_point stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    double elapsed_cpu_time_sec = duration.count() / (double)1e9;
+    // time_point stop = high_resolution_clock::now();
+    // auto duration = duration_cast<nanoseconds>(stop - start);
+    // double elapsed_cpu_time_sec = duration.count() / (double)1e9;
+
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
     SortStats stats = SortStats{"Merge sort",
                                 v.size(),
@@ -291,8 +296,8 @@ void quickSort(vector<T> &v, int low, int high, ulong &num_comps)
 template <typename T>
 SortStats quick_sort(vector<T> &v){
 
-    // clock_t start = clock();
-    time_point start = high_resolution_clock::now();
+    clock_t start = clock();
+    // time_point start = high_resolution_clock::now();
 
     ulong num_comps = 0;
 
@@ -304,12 +309,12 @@ SortStats quick_sort(vector<T> &v){
 
     quickSort(v, 0, n - 1, num_comps);
 
-    // clock_t end = clock();
-    // double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
-    time_point stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    double elapsed_cpu_time_sec = duration.count() / (double)1e9;
+    // time_point stop = high_resolution_clock::now();
+    // auto duration = duration_cast<nanoseconds>(stop - start);
+    // double elapsed_cpu_time_sec = duration.count() / (double)1e9;
 
     return SortStats{"Quick sort",
                      v.size(),
@@ -323,8 +328,8 @@ SortStats quick_sort(vector<T> &v){
 template <typename T>
 SortStats shell_sort(vector<T> &v){
 
-    // clock_t start = clock();
-    time_point start = high_resolution_clock::now();
+    clock_t start = clock();
+    // time_point start = high_resolution_clock::now();
 
     ulong num_comps = 0;
 
@@ -350,12 +355,12 @@ SortStats shell_sort(vector<T> &v){
         }
     }
 
-    // clock_t end = clock();
-    // double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
-    time_point stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    double elapsed_cpu_time_sec = duration.count() / (double)1e9;
+    // time_point stop = high_resolution_clock::now();
+    // auto duration = duration_cast<nanoseconds>(stop - start);
+    // double elapsed_cpu_time_sec = duration.count() / (double)1e9;
 
     return SortStats{"Shell sort",
                      v.size(),
@@ -427,8 +432,10 @@ void iquickSort(vector<T> &v, int low, int high, ulong &num_comps)
 
 template <typename T>
 SortStats iquick_sort(vector<T> &v){
-    // clock_t start = clock();
-    time_point start = high_resolution_clock::now();
+
+
+    clock_t start = clock();
+    // time_point start = high_resolution_clock::now();
 
     ulong num_comps = 0;
 
@@ -440,16 +447,16 @@ SortStats iquick_sort(vector<T> &v){
 
     iquickSort(v, 0, n - 1, num_comps);
 
-    // clock_t end = clock();
-    // double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
+    clock_t end = clock();
+    double elapsed_cpu_time_sec = double(end - start) / CLOCKS_PER_SEC;
 
     // cout << "end: " << end << endl
     //      << "start: " << start << endl
     //      << "clock: " << CLOCKS_PER_SEC << endl;
 
-    time_point stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    double elapsed_cpu_time_sec = duration.count() / (double)1e9;
+    // time_point stop = high_resolution_clock::now();
+    // auto duration = duration_cast<nanoseconds>(stop - start);
+    // double elapsed_cpu_time_sec = duration.count() / (double)1e9;
 
     SortStats stats = SortStats{"iQuick sort",
                                 v.size(),
